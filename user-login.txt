@@ -1,0 +1,7 @@
+## ROLE ADMIN
+email = admin@gmail.com
+password = password
+
+## ROLE USER
+email = user@gmail.com
+password = password
