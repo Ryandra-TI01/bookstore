@@ -20,16 +20,18 @@
                     @endauth
 
                     {{-- PUBLIC MENU --}}
-                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('admin.books.*')">
-                        {{ __('Books') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('about')" :active="request()->routeIs('about')">
-                        {{ __('About Us') }}
-                    </x-nav-link>
+                    @if (!Auth::check() || Auth::user()->role !== 'admin')
+                        <x-nav-link :href="route('books.index')" :active="request()->routeIs('admin.books.*')">
+                            {{ __('Books') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('about')" :active="request()->routeIs('about')">
+                            {{ __('About Us') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
-                        {{ __('Contact') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
+                            {{ __('Contact') }}
+                        </x-nav-link>
+                    @endif
 
                     {{-- AUTH MENU --}}
                     @auth
@@ -45,6 +47,9 @@
 
                             <x-nav-link :href="route('admin.transactions.index')" :active="request()->routeIs('admin.transactions.*')">
                                 {{ __('Transactions') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.contacts.index')" :active="request()->routeIs('admin.contacts.*')">
+                                {{ __('Contacts') }}
                             </x-nav-link>
 
                             <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">

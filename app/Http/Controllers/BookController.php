@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Storage;
 
 class BookController extends Controller
 {
@@ -37,7 +38,13 @@ class BookController extends Controller
             'author' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'cover_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+        if ($request->hasFile('cover_photo')) {
+            $validated['cover_photo'] = $request->file('cover_photo')->store('covers', 'public');
+
+        }
+
         Book::create($validated);
         return redirect()->route('admin.books.adminIndex')->with('success', 'Book added successfully.');
     }
@@ -54,7 +61,15 @@ class BookController extends Controller
             'author' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'cover_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+        if ($request->hasFile('cover_photo')) {
+            // hapus file lama jika ada
+            if ($book->cover_photo && Storage::disk('public')->exists($book->cover_photo)) {
+                Storage::disk('public')->delete($book->cover_photo);
+            }
+            $validated['cover_photo'] = $request->file('cover_photo')->store('covers', 'public');
+        }
         $book->update($validated);
         return redirect()->route('admin.books.adminIndex')->with('success', 'Book updated successfully.');
     }

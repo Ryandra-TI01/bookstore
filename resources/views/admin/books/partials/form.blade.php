@@ -51,4 +51,16 @@
             @endforeach
         </select>
     </div>
+
+    {{-- cover photo --}}
+    <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cover Photo</label>
+        <input type="file" name="cover_photo"
+            class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        @if (isset($book) && $book->cover_photo)
+            <img src="{{ asset('storage/' . $book->cover_photo) }}" alt="Cover"
+                class="w-24 mt-3 rounded-lg shadow-md">
+        @endif
+    </div>
+
 </div>

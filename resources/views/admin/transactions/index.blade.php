@@ -21,13 +21,19 @@
                             #
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                            User
+                            Name
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                            Date
+                            Book
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                            Quantity
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                             Total
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                            Date
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                             Status
@@ -44,11 +50,17 @@
                             <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
                                 {{ $trx->user->name }}
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
-                                {{ $trx->created_at->format('d M Y H:i') }}
+                            <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
+                                {{ $trx->book->title }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
+                                {{ $trx->quantity }} pcs
                             </td>
                             <td class="px-6 py-4 text-sm font-semibold text-blue-600 dark:text-blue-400">
                                 Rp{{ number_format($trx->total_price, 0, ',', '.') }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
+                                {{ $trx->created_at->format('d M Y H:i') }}
                             </td>
                             <td class="px-6 py-4">
                                 @php

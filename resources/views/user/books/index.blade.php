@@ -35,8 +35,20 @@
                 @foreach ($books as $book)
                     <div
                         class="bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-lg transition
-                               border border-gray-200 dark:border-gray-700 flex flex-col">
-                        <div class="flex-1 p-5">
+                               border border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden">
+                        <div class="relative">
+                            @if($book->cover_photo)
+                                <img src="{{ asset('storage/' . $book->cover_photo) }}"
+                                     alt="{{ $book->title }}"
+                                     class="h-56 w-full object-cover">
+                            @else
+                                <div class="h-56 w-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 text-sm">
+                                    No Image
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="flex-1 p-5 flex flex-col">
                             <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-1">
                                 {{ $book->title }}
                             </h3>
@@ -48,20 +60,11 @@
 
                             <form action="{{ route('cart.store') }}" method="POST" class="mt-auto">
                                 @csrf
-                                <input
-                                    type="hidden"
-                                    name="book_id"
-                                    value="{{ $book->id }}"
-                                >
-                                <input
-                                    type="number"
-                                    name="quantity"
-                                    min="1"
-                                    value="1"
+                                <input type="hidden" name="book_id" value="{{ $book->id }}">
+                                <input type="number" name="quantity" min="1" value="1"
                                     class="w-full px-2 py-1 mb-3 border border-gray-300 dark:border-gray-600
                                            rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200
-                                           focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
+                                           focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <button
                                     type="submit"
                                     class="w-full py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600
@@ -74,6 +77,5 @@
                 @endforeach
             </div>
         @endif
-
     </div>
 </x-app-layout>

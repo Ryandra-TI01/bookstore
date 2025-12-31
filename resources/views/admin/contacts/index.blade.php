@@ -1,0 +1,55 @@
+<x-app-layout>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">User Messages</h2>
+        </div>
+
+        @if (session('success'))
+            <div class="mb-4 p-3 rounded-md bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-200 dark:border-gray-700">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-sm font-semibold">#</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold">Name</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold">Email</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold">Date</th>
+                        <th class="px-6 py-3 text-center text-sm font-semibold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    @forelse($contacts as $contact)
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                            <td class="px-6 py-4 text-gray-700 dark:text-gray-300">{{ $loop->iteration }}</td>
+                            <td class="px-6 py-4 text-gray-800 dark:text-gray-100">{{ $contact->name }}</td>
+                            <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ $contact->email }}</td>
+                            <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ $contact->created_at->format('d M Y H:i') }}</td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <a href="{{ route('admin.contacts.show', $contact->id) }}"
+                                   class="px-3 py-1 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition">
+                                    View
+                                </a>
+                                <form action="{{ route('admin.contacts.destroy', $contact->id) }}" method="POST" class="inline">
+                                    @csrf @method('DELETE')
+                                    <button type="submit"
+                                            onclick="return confirm('Delete this message?')"
+                                            class="px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-gray-500 dark:text-gray-300">No messages found</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</x-app-layout>

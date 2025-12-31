@@ -20,8 +20,9 @@
                 <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                     <tr>
                         <th class="px-6 py-3 text-left text-sm font-semibold">#</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold">Cover</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold">Title</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold">Genre</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold">Category</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold">Author</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold">Price</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold">Stock</th>
@@ -32,9 +33,20 @@
                     @forelse($books as $book)
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                             <td class="px-6 py-4 text-gray-700 dark:text-gray-300">{{ $loop->iteration }}</td>
+                            <td class="px-6 py-4">
+                                @if($book->cover_photo)
+                                    <img src="{{ asset('storage/' . $book->cover_photo) }}"
+                                         alt="{{ $book->title }}"
+                                         class="w-14 h-20 object-cover rounded-md shadow-sm border border-gray-200 dark:border-gray-600">
+                                @else
+                                    <div class="w-14 h-20 bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center text-xs text-gray-500">
+                                        No Image
+                                    </div>
+                                @endif
+                            </td>
                             <td class="px-6 py-4 text-gray-800 dark:text-gray-100">{{ $book->title }}</td>
-                            <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ $book->genre->name ?? '-' }}</td>
-                            <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ $book->author->name ?? '-' }}</td>
+                            <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ $book->category->name ?? '-' }}</td>
+                            <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ $book->author ?? '-' }}</td>
                             <td class="px-6 py-4 font-semibold text-blue-600 dark:text-blue-400">
                                 Rp {{ number_format($book->price, 0, ',', '.') }}
                             </td>
@@ -56,7 +68,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center py-4 text-gray-500 dark:text-gray-300">No books found</td>
+                            <td colspan="8" class="text-center py-4 text-gray-500 dark:text-gray-300">No books found</td>
                         </tr>
                     @endforelse
                 </tbody>
